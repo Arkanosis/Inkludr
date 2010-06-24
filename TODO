@@ -1,0 +1,10 @@
+* Handle files recursivly
+* Build a dependency tree
+* Store total file size a each node level
+* Handle include pathes
+* Handle macros, so that protected inclusion are considered only once
+* Detect macro, namespace, class, struct, typedef and variable definitions that are not in a local scope
+* Detect macro, namespace, class, struct, typedef and variable usages and link them to their definition site (namely, the source file)
+* Detect which includes may be removed, because no link use them
+* Detect which includes could be replaced by children nodes and sort them by decreasing size gain
+* ... or replace them if the size gain is above a given threshold fixed by the user
