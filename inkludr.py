@@ -1,24 +1,51 @@
-#! /usr/bin/python
+#! /usr/bin/env python
 # -*- coding: utf-8 -*-
-
-from __future__ import with_statement
 
 import re
 import sys
 
-def main():
+_version = '0.1'
+_include = re.compile(r'^\s*?\#\s*?include\s*[<"](?P<path>[a-zA-Z0-9._-]+)[>"]')
+
+def getIncludes(fileName):
+	includes = []
+	with open(fileName) as source:
+		for line in source:
+			include = _include.match(line)
+			if include:
+				includes.append(include.group('path'))
+	return includes
+
+def inferIncludesMap(includesMap):
+	# TODO FIXME
+	pass
+
+def getIncludeMap(fileNames):
+	includesMap = {}
+	for fileName in fileNames:
+		includes = getIncludes(fileName)
+		if includes:
+			includesMap[fileName] = includes
+	inferIncludesMap(includesMap)
+	return includesMap
+
+def filterIncludesMap(includesMap, pattern):
+	filteredMap = {}
+	regexp = re.compile(pattern)
+	for fileName, includes in includesMap.items():
+		if regexp.search(fileName):
+			filteredMap[fileName] = includes
+	return filteredMap
+
+if __name__ == '__main__':
+	print 'Inkludr v%s' % _version
+	print '(C) 2009-2011 Arkanosis'
+	print 'arkanosis@gmail.com'
+	print
+
 	if len(sys.argv) < 2:
 		print 'Usage: inkludr.py <files>'
 		sys.exit(1)
 
-	for fileName in sys.argv[1:]:
-		mapIncludes(fileName)
-
-_include = re.compile('^\s*#\s*include\s*[<"]([a-zA-Z_-]+)[">]')
-
-def mapIncludes(fileName):
-	with open(fileName) as source:
-		for line in source:
-			header = _include.match(line)
-			if header:
-				print 'includes', header.group(1)
+	includesMap = filterIncludesMap(getIncludeMap(sys.argv[1:]), r'\.cpp$')
+	print includesMap
