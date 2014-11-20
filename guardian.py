@@ -91,6 +91,7 @@ def checkGuards(fileName):
 
 if __name__ == '__main__':
 	if len(sys.argv) != 2:
+                print 'Guardian v%s' % _version
 		print 'Usage: guardian.py <file>'
 		sys.exit(1)
 

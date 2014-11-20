@@ -38,12 +38,8 @@ def filterIncludesMap(includesMap, pattern):
 	return filteredMap
 
 if __name__ == '__main__':
-	print 'Inkludr v%s' % _version
-	print '(C) 2009-2011 Arkanosis'
-	print 'arkanosis@gmail.com'
-	print
-
 	if len(sys.argv) < 2:
+                print 'Inkludr v%s' % _version
 		print 'Usage: inkludr.py <files>'
 		sys.exit(1)
 
